@@ -163,10 +163,6 @@ import React, { Component } from 'react';
 import {Helmet} from "react-helmet"; 
 
 class Scripts extends Component { 
-  constructor(props) { 
-    super(props); 
-    this.state = { } 
-  } 
   render() { 
     return ( 
       <Helmet> 
@@ -191,10 +187,12 @@ import Scripts from './scripts/scripts';
  
  ```
   render() { 
-    return [ 
-      <div key="08"></div>, 
-      <Scripts key="script" /> 
-    ];
+    return (
+      <Fragment>
+      <div></div>, 
+      <Scripts /> 
+      </Fragment>
+    );
   }
 ```
 

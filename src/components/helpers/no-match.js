@@ -1,8 +1,8 @@
 import React from 'react';
 import {  Link  } from "react-router-dom";
-function NoMatch (props) {
+const NoMatch = (props) => {
     return (
-      <div key="content"  className="container mt-5">
+      <div className="container mt-5">
         <h1 align="center">404</h1>
         <div className="text-center">
           <h2 align="center">Page Not Found</h2>
