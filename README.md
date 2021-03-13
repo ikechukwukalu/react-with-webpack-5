@@ -1,4 +1,4 @@
-MY REACT APP WITH WEBPACK 4.0
+MY REACT APP WITH WEBPACK 5
 ## Install React JS
 •	``npm install -g create-react-app``
 ## Start a new React project
