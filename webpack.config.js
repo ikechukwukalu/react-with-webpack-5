@@ -12,7 +12,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'react-webpack'),
         filename: 'main.js',
-        publicPath: '/' // For production - Change to base directory folder name Eg. https://localhost/basename/
+        publicPath: '/' // For production - Change to base directory folder name Eg. "https://localhost/BASENAME/" - publicPath: 'BASENAME'
     },
     mode: 'development',
     devServer: {
@@ -51,10 +51,6 @@ module.exports = {
                     }
                 ]
             },
-            // {
-            //     test: /\.(scss|css)$/,
-            //     use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
-            // },
             {
                 test: /\.(?:ico|gif|png|jpg|jpeg|cur)$/i,
                 type: 'asset/resource',

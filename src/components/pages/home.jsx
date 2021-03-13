@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import $ from "jquery";
 import { Link } from "react-router-dom";
 
-import Scripts from "../scripts/scripts.js";
+import Scripts from "../scripts/scripts";
 import logo from "../../logo.svg";
 
 class Home extends Component {
@@ -15,7 +15,6 @@ class Home extends Component {
   }
 
   componentWillUnmount() {
-    // $("head").find("script").remove();
     document.getElementById('helmet-script').remove();
   }
 

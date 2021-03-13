@@ -3,86 +3,137 @@ MY REACT APP WITH WEBPACK 4.0
 •	``npm install -g create-react-app``
 ## Start a new React project
 •	``npx create-react-app project``
-## Add babel rc to React JS
-•	``npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev``\
-•	Create a new ``.babelrc`` (just like .htaccess)\
-•	Add the following line
+## Add .babelrc
+•	``npm i -D @babel/core babel-loader @babel/preset-env @babel/preset-react @babel/plugin-proposal-class-properties``\
+•	Create a new ``.babelrc``\
+•	Add the following lines
 
-```{"presets": ["@babel/preset-env", "@babel/preset-react"]}```
+```
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-proposal-class-properties",
+            {
+                "loose": true
+            }
+        ]
+    ]
+}
+```
+## Add postcss.config.js
+•	``npm i -D sass-loader postcss-loader css-loader style-loader postcss-preset-env node-sass``\
+•	Create a new ``.postcss.config.js``\
+•	Add the following lines
 
-## Add Webpack 4.0
-•	``npm i webpack --save-dev``\
-•	``npm i webpack-cli --save-dev``\
-•	``npm i --save-dev html-webpack-plugin``\
-•	``npm install --save-dev mini-css-extract-plugin``\
-•	``npm i -D copy-webpack-plugin``\
-•	``npm install url-loader --save-dev``\
-•	``npm i html-webpack-plugin html-loader --save-dev``\
-•	``npm install --save-dev css-loader``\
-•	Create a ``webpack.config.js`` file and add the following lines
+```
+module.exports = {
+    plugins: {
+        'postcss-preset-env': {
+            browsers: 'last 2 versions',
+        },
+    },
+}
+```
+## Add Webpack 5 and the needed plugins
+•	``npm i -D webpack webpack-cli``\
+•	``npm i -D html-webpack-plugin clean-webpack-plugin mini-css-extract-plugin copy-webpack-plugin``\
+•	Create a ``webpack.config.js``
+•	Add the following lines
 
 ```
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'react-webpack'),
-    filename: 'main.js',
-    publicPath: '/' // For production - Change to base directory folder name Eg. https://localhost/basename/
-  },
-  devServer: {
-    historyApiFallback: true,
-    host: 'localhost',
-    port: 8080, // change to 80 for production
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: "html-loader",
-            options: { minimize: true }
-          }
+    entry: {
+        main: path.resolve(__dirname, './src/index.js'),
+    },
+    output: {
+        path: path.resolve(__dirname, 'react-webpack'),
+        filename: 'main.js',
+        publicPath: '/' // For production - Change to base directory folder name Eg. "https://localhost/BASENAME/" - publicPath: 'BASENAME'
+    },
+    mode: 'development',
+    devServer: {
+        historyApiFallback: true,
+        contentBase: path.resolve(__dirname, 'react-webpack'),
+        open: true,
+        compress: true,
+        hot: true,
+        port: 8080, // For production - You may need to change this to 80 
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: path.resolve(__dirname, './node_modules'),
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
+                test: /\.ts$/,
+                exclude: path.resolve(__dirname, './node_modules'),
+                use: {
+                    loader: "ts-loader"
+                }
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader",
+                        options:
+                        {
+                            minimize: true
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(?:ico|gif|png|jpg|jpeg|cur)$/i,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+                type: 'asset/inline',
+            },
+            {
+                test: /\.(scss|css)$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+            },
         ]
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
-      },
-      { 
-        test: /\.(cur|jpg|jpeg|gif|png|woff|woff2|eot|ttf|svg)$/,
-        loader: "url-loader?limit=50000&name=/fonts/[name].[ext]"
-      }
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: "./src/index.html",
+            filename: "./index.html"
+        }),
+        new MiniCssExtractPlugin({ 
+            filename: "[name].css", 
+            chunkFilename: "[id].css" 
+        }),
+        new CopyWebpackPlugin({
+          patterns: [
+            { from: "src/assets", to: "assets" },
+          ],
+        }),
+        new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery'
+        }),
     ]
-  },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/index.html", // for compiling html file in src folder
-      filename: "./index.html"
-    }),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
-    }),
-    new CopyWebpackPlugin([
-      // for compiling directories in src folder
-      {from:'src/images',to:'images'},
-      {from:'src/assets',to:'assets'} ,
-      {from:'src/media',to:'media'} 
-    ]),
-  ]
 };
 ```
 •	Next, go to package.json in your React JS and edit
@@ -98,7 +149,7 @@ module.exports = {
 To
 ```
 "scripts": {
-    "start": "webpack-dev-server --open --mode development",
+    "start": "webpack serve",
     "build": "webpack --mode production"
   },
   ```
@@ -120,10 +171,10 @@ RewriteCond %{REQUEST_URI} !=/favicon.ico
 RewriteRule ^ index.html [L]
 </IfModule>
 ```
-## REACT WITH EXTERNAL JS AND AUTO SCROLL UP
+## REACT WITH EXTERNAL JS PLUGINS
 • Run ``npm install --save react-helmet``\
-• Within your ``src/components/scripts`` folder create a file called ``scripts.jsx``\
-• Add the following code
+• Within your ``src/components/scripts`` folder create a file called ``scripts.js``\
+• Add the following lines
 ```
 import React, { Component } from 'react'; 
 import {Helmet} from "react-helmet"; 
@@ -136,7 +187,7 @@ class Scripts extends Component {
   render() { 
     return ( 
       <Helmet> 
-        <script src='js/vendors.js'></script> 
+        <script id='helmet-script' src='js/vendors.js'></script> 
       </Helmet> 
     ); 
   } 
@@ -146,12 +197,12 @@ export default Scripts;
 • Next for every component you create add the following code
 
 ```
-import Scripts from './scripts/scripts.jsx';
+import Scripts from './scripts/scripts';
 ```
 
 ```
   componentWillUnmount() { 
-    $("head").find('script').remove(); 
+    document.getElementById('helmet-script').remove(); 
   }
  ```
  
@@ -163,7 +214,6 @@ import Scripts from './scripts/scripts.jsx';
     ];
   }
 ```
-• Next run the following:
 
 ```
 cd src/assets/js
@@ -173,8 +223,9 @@ cd src/assets/js
 ```
 node read.js
 ```
-• Create another file within ``src/components/scripts`` named ``scroll.js`` and add the following code\
-• Inside your app.js file add the following lines
+## REACT WITH AUTO SCROLL UP AFTER PAGE NAVIGATION
+• Create a file within ``src/components/scripts`` named ``scroll.js`` and add the following code\
+•	Add the following lines
 
 ```
 import React, { Component } from 'react'; 
@@ -194,6 +245,7 @@ class ScrollToTop extends Component {
 export default withRouter(ScrollToTop);
 ```
 
+• Inside your ``app.js`` file add the following lines
 ```
 import React, { Component } from 'react';
 import { HashRouter as Router  } from "react-router-dom";
@@ -224,6 +276,7 @@ class App extends Component {
 export default App;
 ```
 
+## WRAPPING UP
 •	Copy the ``index.html, favicon.ico, manifest.json`` file and all your directory folders into the src folder\
 •	You can delete the public folder\
 •	Inside the ``index.html`` file remove any %PUBLIC_FOLDER% in the link tags\
