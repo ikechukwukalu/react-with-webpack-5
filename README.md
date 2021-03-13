@@ -41,7 +41,7 @@ module.exports = {
 ## Add Webpack 5 and the needed plugins
 •	``npm i -D webpack webpack-cli``\
 •	``npm i -D html-webpack-plugin clean-webpack-plugin mini-css-extract-plugin copy-webpack-plugin``\
-•	Create a ``webpack.config.js``
+•	Create a ``webpack.config.js``\
 •	Add the following lines
 
 ```
@@ -136,7 +136,7 @@ module.exports = {
     ]
 };
 ```
-•	Next, go to package.json in your React JS and edit
+•	Next, go to package.json and change
 ```
 "scripts": {
     "start": "react-scripts start",
@@ -154,23 +154,6 @@ To
   },
   ```
 
-•	In your production file, create an .htaccess file and add the following lines.
-```
-# Map all non-existing URLs to be processed by index.html,
-# so any URL that doesn't point to a JS file, CSS file, etc etc...
-# goes through my React app.
-
-<IfModule mod_rewrite.c> 
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !=/favicon.ico
-RewriteRule ^ index.html [L]
-</IfModule>
-```
 ## REACT WITH EXTERNAL JS PLUGINS
 • Run ``npm install --save react-helmet``\
 • Within your ``src/components/scripts`` folder create a file called ``scripts.js``\
@@ -281,4 +264,21 @@ export default App;
 •	You can delete the public folder\
 •	Inside the ``index.html`` file remove any %PUBLIC_FOLDER% in the link tags\
 •	Run ``npm start``\
-•	To build ``npm run build``
+•	To build ``npm run build``\
+•	In your production file, create an .htaccess file and add the following lines.
+```
+# Map all non-existing URLs to be processed by index.html,
+# so any URL that doesn't point to a JS file, CSS file, etc etc...
+# goes through my React app.
+
+<IfModule mod_rewrite.c> 
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !=/favicon.ico
+RewriteRule ^ index.html [L]
+</IfModule>
+```
