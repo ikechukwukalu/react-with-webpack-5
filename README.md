@@ -335,7 +335,7 @@ pipelines:
               LOCAL_PATH: $FTP_LOCAL_PATH # Optional - React build directory.
               EXTRA_ARGS: '--exclude Logs/ --exclude .htaccess' # Exclude deleting Logs directory and .htacess file on the Remote Server
               # DEBUG: 'true' # Optional
-              # DELETE_FLAG: '<boolean>' # Optional. This is a option to delete old files before transferring new ones. Default: true.
+              # DELETE_FLAG: 'false' # Optional. This is an option to delete old files before transferring new ones. Default: true.
 ```
 
 •	To start run ``docker-compose up``
