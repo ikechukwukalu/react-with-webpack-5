@@ -339,7 +339,7 @@ pipelines:
 ```
 
 •	To start run ``docker-compose up``\
-•	To update add to packages run ``docker-compose down -v``, ``docker-compose build`` and ``docker-compose up`
+•	To update add to packages run ``docker-compose down -v``, ``docker-compose build`` and ``docker-compose up``
 
 
 <p>See&nbsp;<a href="https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/">Bitbucket Pipelines</a> for more details</p>
