@@ -310,7 +310,7 @@ services:
 ```
 
 •	To start run ``docker-compose up``\
-•	To update add new packages after installing them run ``docker-compose down -v``, ``docker-compose build`` and ``docker-compose up``
+•	To add new packages after installing them run ``docker-compose down -v``, ``docker-compose build`` and ``docker-compose up``
 
 ## BITBUCKET CI/CD VIA FTP
 
