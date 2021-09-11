@@ -309,6 +309,9 @@ services:
       - .:/app
 ```
 
+•	To start run ``docker-compose up``\
+•	To update add new packages after installing them run ``docker-compose down -v``, ``docker-compose build`` and ``docker-compose up``
+
 ## BITBUCKET CI/CD VIA FTP
 
 •	Create a new ``bitbucket-pipelines.yml`` and add the following lines
@@ -337,9 +340,5 @@ pipelines:
               # DEBUG: 'true' # Optional
               # DELETE_FLAG: 'false' # Optional. This is an option to delete old files before transferring new ones. Default: true.
 ```
-
-•	To start run ``docker-compose up``\
-•	To update add to packages run ``docker-compose down -v``, ``docker-compose build`` and ``docker-compose up``
-
 
 <p>See&nbsp;<a href="https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/">Bitbucket Pipelines</a> for more details</p>
